@@ -3,6 +3,8 @@
 namespace Seimas;
 
 class Sitting extends \Eloquent {
+	use DefaultParameterTrait;
+	
 	protected $fillable = [];
 	protected $table = 'sittings';
 	protected $primaryKey = 'id';
@@ -16,8 +18,14 @@ class Sitting extends \Eloquent {
 		return $this->hasMany('Seimas\Question', 'sittings_id', $this->primaryKey);
 	}
 	
-	public function members() {
-		return $this->belongsToMany('Seimas\Member', 'sitting_participation', 'sittings_id', 'members_id')
-				->withPivot('presence');
+	public function members($participated = null) {
+		return	
+			$this->defaultPivotParameter(
+				$this->belongsToMany('Seimas\Member', 'sitting_participation', 'sittings_id', 'members_id')
+					->withPivot('presence'),
+				'presence',
+				$participated,
+				'boolean'
+			);
 	}
 }

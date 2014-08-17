@@ -87,6 +87,7 @@ return array(
 		'attribute-name' => array(
 			'rule-name' => 'custom-message',
 		),
+		'vote' => ['in' => 'Vote value needs to be one of ":values"	']
 	),
 
 	/*
