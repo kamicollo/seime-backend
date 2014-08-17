@@ -1,0 +1,12 @@
+/bootstrap/compiled.php
+/vendor
+/app/config
+composer.phar
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+/app/config/local/*
+!/app/config/local/.gitkeep
+/app/config/live/*
+!/app/config/live/.gitkeep
