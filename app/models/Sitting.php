@@ -28,4 +28,15 @@ class Sitting extends \Eloquent {
 				'boolean'
 			);
 	}
+	
+	public function membersWithData($participated = null) {
+		return	
+			$this->defaultPivotParameter(
+				$this->belongsToMany('Seimas\Member', 'participation_data', 'sittings_id', 'members_id')
+					->withPivot('official_presence', 'hours_available', 'hours_present'),
+				'official_presence',
+				$participated,
+				'boolean'
+			);
+	}
 }

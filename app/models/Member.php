@@ -22,6 +22,17 @@ class Member extends \Eloquent {
 			);
 	}
 	
+	public function sittingsWithData($participated = null) {
+		return	
+			$this->defaultPivotParameter(
+				$this->belongsToMany('Seimas\Sitting', 'participation_data', 'members_id', 'sittings_id')
+					->withPivot('official_presence', 'hours_present', 'hours_available'),
+				'official_presence',
+				$participated,
+				'boolean'
+			);
+	}
+	
 	public function speeches() {
 		return $this->belongsToMany('Seimas\Speech', 'speakers', 'members_id', 'actions_id');
 	}
