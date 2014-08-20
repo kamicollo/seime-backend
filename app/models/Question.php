@@ -35,4 +35,8 @@ class Question extends \Eloquent {
 		return $this->hasMany('Seimas\Vote', 'questions_id', $this->primaryKey)
 				->where('type', Action::UNANIMOUS_VOTE);
 	}
+	
+	public function items() {
+		return $this->hasMany('Seimas\Item', 'questions_id', $this->primaryKey);
+	}
 }
