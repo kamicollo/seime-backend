@@ -12,6 +12,10 @@ class Question extends \Eloquent {
 		return $this->belongsTo('Seimas\Sitting', 'sittings_id', $this->primaryKey);
 	}
 	
+	public function subquestions() {
+		return $this->hasMany('Seimas\Subquestion', 'questions_id', $this->primaryKey);
+	}
+	
 	public function actions() {
 		return $this->hasMany('Seimas\Action', 'questions_id', $this->primaryKey);
 	}

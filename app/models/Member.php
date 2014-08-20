@@ -59,4 +59,15 @@ class Member extends \Eloquent {
 			);
 	}
 	
+	public function subquestions($participated = null) {
+		return	
+			$this->defaultPivotParameter(
+				$this->belongsToMany('Seimas\Subquestion', 'subquestions_participation', 'members_id', 'subquestions_id')
+					->withPivot('presence'),
+				'presence',
+				$participated,
+				'boolean'
+			);
+	}
+	
 }
