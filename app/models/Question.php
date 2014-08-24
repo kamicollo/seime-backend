@@ -2,7 +2,10 @@
 
 namespace Seimas;
 
-class Question extends \Eloquent {
+class Question extends \Eloquent implements ChildInterface, ParentInterface {
+	use ChildTrait;
+	use ParentTrait;
+	
 	protected $fillable = [];
 	protected $table = 'questions';
 	protected $primaryKey = 'id';
@@ -43,4 +46,9 @@ class Question extends \Eloquent {
 	public function items() {
 		return $this->hasMany('Seimas\Item', 'questions_id', $this->primaryKey);
 	}
+
+	public function loadChildren() {
+		$this->children = $this->actions()->orderBy('number', 'ASC')->get();
+	}
+	
 }

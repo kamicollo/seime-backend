@@ -2,8 +2,10 @@
 
 namespace Seimas;
 
-class Sitting extends \Eloquent {
+class Sitting extends \Eloquent implements ChildInterface, ParentInterface {
 	use DefaultParameterTrait;
+	use ChildTrait;
+	use ParentTrait;
 	
 	protected $fillable = [];
 	protected $table = 'sittings';
@@ -39,4 +41,9 @@ class Sitting extends \Eloquent {
 				'boolean'
 			);
 	}
+
+	public function loadChildren() {
+		$this->children = $this->questions()->orderBy('number', 'ASC')->get();
+	}
+
 }

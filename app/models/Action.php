@@ -2,8 +2,9 @@
 
 namespace Seimas;
 
-class Action extends \Eloquent {
+class Action extends \Eloquent implements ChildInterface {
 	use DefaultParameterTrait;
+	use ChildTrait;
 	
 	protected $fillable = [];
 	protected $table = 'actions';
