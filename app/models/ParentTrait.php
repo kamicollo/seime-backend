@@ -4,10 +4,17 @@ namespace Seimas;
 
 trait ParentTrait {
 	
+	/** @var array */
 	public $children = [];
+	/** @var \Generator */
+	protected $childrenData = null;
 	
 	public function getIterator() {
-		return $this->children->getIterator();
+		if ($this->children instanceof \IteratorAggregate) {
+			return $this->children->getIterator();
+		} else {
+			return new \EmptyIterator();
+		}
 	}
 	
 	public function setupChildren($recursively = false) {
@@ -39,5 +46,36 @@ trait ParentTrait {
 		}
 	}
 	
+	public function createChild($type = '') {
+		$class = $this->getChildClass($type);
+		$child = new $class();
+		$this->children[] = $child;
+		$child->setParent($this, count($this->children) - 1);
+		return $child;
+	}
 	
+	public function getChildren() {
+		return $this->children;
+	}
+	
+	public function getChildClass($type = '') {
+		return $this->childClass;
+	}
+	
+	public function setChildrenData(\Generator $data = null) {
+		$this->childrenData = $data;
+	}
+	
+	/** @return \Generator */
+	public function getChildrenData() {
+		return $this->childrenData;
+	}
+	/** @return boolean */
+	public function hasChildrenData() {
+		if ($this->getChildrenData() instanceof \Generator) {
+			return $this->getChildrenData()->valid();
+		} else {
+			return false;
+		}
+	}
 }

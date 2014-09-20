@@ -9,9 +9,10 @@ class Session extends \Eloquent implements ParentInterface {
 	protected $table = 'sessions';
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+	protected $childClass = 'Seimas\Sitting';
 	
 	public function sittings() {
-		return $this->hasMany('Seimas\Sitting', 'sessions_id', $this->primaryKey);
+		return $this->hasMany($this->childClass, 'sessions_id', $this->primaryKey);
 	}
 	
 	public function loadChildren() {

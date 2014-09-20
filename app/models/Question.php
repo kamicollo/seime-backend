@@ -10,6 +10,14 @@ class Question extends \Eloquent implements ChildInterface, ParentInterface {
 	protected $table = 'questions';
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+	public $childClass = 'Seimas\Action';
+	public $childClasses = [
+		Action::OTHER => 'Seimas\Action',
+		Action::REGISTRATION => 'Seimas\Registration',
+		Action::VOTE => 'Seimas\Vote',
+		Action::SPEECH => 'Seimas\Speech',
+		Action::UNANIMOUS_VOTE => 'Seimas\Action'
+	];
 	
 	public function sitting() {
 		return $this->belongsTo('Seimas\Sitting', 'sittings_id', $this->primaryKey);
@@ -39,7 +47,7 @@ class Question extends \Eloquent implements ChildInterface, ParentInterface {
 	}
 	
 	public function unanimousVotes() {
-		return $this->hasMany('Seimas\Vote', 'questions_id', $this->primaryKey)
+		return $this->hasMany('Seimas\Action', 'questions_id', $this->primaryKey)
 				->where('type', Action::UNANIMOUS_VOTE);
 	}
 	
@@ -51,4 +59,15 @@ class Question extends \Eloquent implements ChildInterface, ParentInterface {
 		$this->children = $this->actions()->orderBy('number', 'ASC')->get();
 	}
 	
+	public function getChildClass($type = '') {
+		if (array_key_exists($type, $this->childClasses)) {
+			return $this->childClasses[$type];
+		} else {
+			return $this->childClass;
+		}
+	}
+	
+	public function setItemData(\Generator $items) {
+		$this->itemData = $items;
+	}
 }

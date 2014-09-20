@@ -15,5 +15,5 @@ class Item extends \Eloquent {
 	public function presenters() {
 		return $this->hasMany('Seimas\Presenter', 'items_id', $this->primaryKey);
 	}
-
+	
 }

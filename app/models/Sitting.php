@@ -11,13 +11,14 @@ class Sitting extends \Eloquent implements ChildInterface, ParentInterface {
 	protected $table = 'sittings';
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+	protected $childClass = 'Seimas\Question';
 	
 	public function session() {
 		return $this->belongsTo('Seimas\Session', 'sessions_id', 'id');
 	}
 	
 	public function questions() {
-		return $this->hasMany('Seimas\Question', 'sittings_id', $this->primaryKey);
+		return $this->hasMany($this->childClass, 'sittings_id', $this->primaryKey);
 	}
 	
 	public function members($participated = null) {
